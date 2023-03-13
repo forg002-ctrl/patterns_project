@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  backend:
+    image: node:16
+    restart: 'no'
+    ports:
+      - 9001:9001
+    volumes:
+      - "./:/mnt"
+    working_dir: "/mnt/apps/backend"
+    entrypoint: "/bin/bash -c"
+    command:
+        - |
+            CI=true npm run dev || (\
+                echo '`npm run dev` failed, but the container is running...' && \
+                tail -f /dev/null \
+            )
